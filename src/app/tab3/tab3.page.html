@@ -11,7 +11,7 @@
     <form [formGroup]="contactForm" (ngSubmit)="formSubmit()">
     <ion-card-content>
       <ion-item>
-        <ion-label position="floating">Name</ion-label>
+        <ion-label position="floating">Complete Name</ion-label>
         <ion-input  formControlName="name" type="text" required></ion-input>
       </ion-item>
       <ion-item>
@@ -19,14 +19,12 @@
         <ion-input formControlName="mobile" type="text" required></ion-input>
       </ion-item>
       <br/>
-      <ion-button type="submit" shape="round" expand="block" fill="solid" color="success"><b>SAVE</b></ion-button>
+      <ion-button type="submit" shape="round" expand="block" fill="solid" color="tertiary"><b>SAVE</b></ion-button>
       
       <ion-list>
         <ion-item-sliding id="item100"  *ngFor="let cont of contacts">
           <ion-item href="#">
-            <ion-avatar slot="start">
-              <img src="https://img-premium.flaticon.com/png/512/1177/1177568.png?token=exp=1621762213~hmac=1f98f73e8e2b1684a6525aa6e06cf02e" >
-            </ion-avatar>
+          
             <ion-label>
               <h3>{{cont.name}}</h3>
               <p>{{cont.mobile}}</p>
