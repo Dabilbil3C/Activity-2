@@ -1,11 +1,22 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,400i,700");
+body {
+  font-size: 16px;
+  color:white;
+  font-family: Montserrat, sans-serif;
+  background-image: linear-gradient(to bottom right, #ff9eaa 0% 65%, #e860ff 95% 100%);
+  background-position: center;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 2rem 0;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
 
-
+}
 .card {
   margin: 500px;
   text-align: center;
-  background-image: linear-gradient(to bottom right, #ff9eaa 0% 65%, #e860ff 95% 100%);
-  max-width: 380px;
+  background-color:black;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -81,7 +92,7 @@
   font-family: cursive;
 }
 .card .title {
-  color: black;
+  color: white;
   font-size: 0.85rem;
   margin-left: 0;
   padding: 0 2rem 1.2rem;
@@ -153,13 +164,16 @@
     width: 40%;
   }
 h1{
-    color: black;
+    color: white;
 }
 p{
-    color: black;
+    color: white;
     text-align: left;
     margin-left: 10px;
 }
 ion-title{
   text-align: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: rgb(255, 20, 71);
+  font-size: 30px;
 }

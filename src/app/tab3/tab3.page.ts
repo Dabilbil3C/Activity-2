@@ -1,63 +1,66 @@
-
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import { AlertController} from '@ionic/angular';
+import { Router } from '@angular/router';
+import { FormGroup, FormBuilder } from "@angular/forms";
 import { ContactServiceService } from '../services/contact-service.service';
-import { AlertController } from '@ionic/angular';
-import {MessagePageModule} from '../../app/message/message.module';
+import { Contact } from '../services/contact';
 
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss']
 })
-export class Tab3Page {
-  contName = ""; 
-  contNumber = ""
+export class Tab3Page implements OnInit{
+  contactForm: FormGroup;
   contacts: any = [];
 
-  constructor(public contactService: ContactServiceService, public alertController: AlertController)
-  {}
+  constructor(
+    private contService: ContactServiceService,
+    public fb: FormBuilder
 
-  saveContact() {
-  let contact = {
-  name: this.contName,
-  number:this.contNumber
-  }
-  this.contacts.push(contact);
-  this.clearField();
-  console.log(this.contacts);
-  }
-  clearField() {
-    this.contName = "";
-    this.contNumber = "";
-  }
-  async delete(cont){
-    const alert = await this.alertController.create({
-      header: 'Delete?',
-      message: '',
-      buttons: [
-        {
-          text: 'cancel',
-          role: 'cancel',
-          cssClass: 'icon-color',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text:'Yes',
-          cssClass:'icon-color',
-          handler: () => {
-            let index = this.contacts.indexOf(cont);
-            if(index > -1){
-              this.contacts.splice(index,1);
-              console.log('Yes');
-            }
-          }
-        }
-      ]
-    });
-      await alert.present();
+  ) {}
 
-}
+  ngOnInit(){
+
+    this.fetchContact();
+    let contact = this.contService.getContactList();
+    contact.snapshotChanges().subscribe(res => {
+      this.contacts = [];
+      res.forEach(item => {
+        let a = item.payload.toJSON();
+        a['$key'] = item.key;
+        this.contacts.push(a as Contact);
+      }) 
+    })
+  }
+
+  fetchContact() {
+    this.contService.getContactList().valueChanges().subscribe(res => {
+      console.log(res)
+    })
+
+    this.contactForm = this.fb.group({
+      name: [''],
+      mobile: ['']
+    })
 }
 
+  formSubmit() {
+    if (!this.contactForm.valid) {
+      return false;
+    } else {
+      this.contService.createContact(this.contactForm.value).then(res => {
+        console.log(res)
+        this.contactForm.reset();
+      })
+        .catch(error => console.log(error));
+    }
+  }
+  deleteContact(id) {
+    console.log(id)
+    if (window.confirm('Are you sure you want to delete this contact?')) {
+      this.contService.deleteContact(id)
+    }
+  }
+
+  }
